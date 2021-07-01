@@ -26,31 +26,46 @@
         </div>
         
         <ul>
-            <li v-for="(thread,index) in filteredThreads">
-                <div v-on:click="getPosts(index)">
+            <li v-for="thread in filteredThreads">
+                <div v-on:click="getPosts(thread._id)">
                     <h2>{{ thread.name }}</h2>
                     <p>{{ thread.author }}</p>
                     <p>{{ thread.description }}</p>
                     <p>{{ thread.category }}</p>
                 </div>
-                <button v-on:click="deleteThread(index)">Delete</button>
+                <button v-on:click="deleteThread(thread._id)">Delete</button>
             </li>
         </ul>
         </div>
 
         <div v-else-if="page == 'posts' ">
-            <h2>{{ threads[index].name }}</h2>
-            <p>{{ threads[index].author }}</p>
-            <p>{{ threads[index].description }}</p>
-            <p>{{ threads[index].category }}</p>
+            <h2>{{ postings.name }}</h2>
+            <p>{{ postings.author }}</p>
+            <p>{{ postings.description }}</p>
+            <p>{{ postings.category }}</p>
 
             <h2>Posts</h2>
+            <div v-show="postings.length == 0">
+                {{ postsEmpty }}
+            </div>
             <ul>
                 <li v-for="post in postings">
-                    {{ post.author }}
-                    {{ post.body }}
+                    <p>{{ post.author }}</p>
+                    <p>{{ post.body }}</p>
+                    <button v-on:click="deletePost(post)">Delete</button>
                 </li>
             </ul>
+            <div>
+                <h2>Create Post</h2>
+                <label>Author:</label>
+                <input type="text" v-model="newPostAuthor"><br>
+                <label>Description</label>
+                <input type="text" v-model="newPostBody"><br>
+                <button v-on:click="createPost(postings._id)">Submit</button>
+
+
+
+            </div>
 
         </div>
 
